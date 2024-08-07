@@ -28,7 +28,8 @@ STOPPING, SHOWING = map(chr, range(8, 10))
     # Shortcut for ConversationHandler.END  
     # Ярлык для обработчика разговоров.КОНЕЦ
 END = ConversationHandler.END
-
+# for first enter
+FIRST = True
     # Different constants for this example
 (
     PARENTS,
@@ -43,7 +44,7 @@ END = ConversationHandler.END
     FEATURES,
     CURRENT_FEATURE,
     CURRENT_LEVEL,
-    # WORK_SCHEDULE
+    # FIRST
 ) = map(chr, range(10, 22))
 
 from import_data_visitors import import_data_visitors
@@ -88,7 +89,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             "Сеть медицинских центров АльфаМед приветствует Вас! Наш  телефон 8 (812) 200-42-42"
         )
         await update.message.reply_text(text=text, reply_markup=keyboard)
-    import_data_visitors(update.message.from_user)
+        import_data_visitors(update)
+    # print(context.user_data[FIRST])
+    # for key, value in context.user_data[FIRST].items():
+    #     print(f"{key}: {value}")
+    # context.user_data[FIRST] = False
     context.user_data[START_OVER] = False
     return SELECTING_ACTION
 
@@ -117,10 +122,7 @@ async def numbers(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             "\nУдельная \n Тел. 304-70-20, 988-70-20"
             "\nРыбацкое \n Тел. 679-59-79, (911) 926-04-40"
             "\nБелы Куна \n Тел. 705-09-32, 921-00-88")
-    # text += f"\n\nРодители:{pretty_print(user_data, PARENTS)}"
-    # text += f"\n\nДети:{pretty_print(user_data, CHILDREN)}"
     buttons = [[InlineKeyboardButton(text="Вернуться", callback_data=str(SELECTING_ACTION))]]
-    # buttons = [[InlineKeyboardButton(text="Сделано", callback_data=str(SELECTING_ACTION))]]
     keyboard = InlineKeyboardMarkup(buttons)
     await update.callback_query.answer()
     await update.callback_query.edit_message_text(text=text, reply_markup=keyboard)
@@ -152,7 +154,9 @@ async def work_schedule(update: Update, context: ContextTypes.DEFAULT_TYPE) -> s
     keyboard = InlineKeyboardMarkup(buttons)
     await update.callback_query.answer()
     await update.callback_query.edit_message_text(text=text, reply_markup=keyboard)
-    # user_data[START_OVER] = True
+    # hire
+    user_data = context.user_data
+    user_data[START_OVER] = True
 
     # return WORK_SCHEDULE
 

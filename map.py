@@ -1,11 +1,17 @@
-m = 1
-n = {1 : 2}
+# from typing import Any, Dict, Tuple
+print(str('\x12'))
+# (
+#     Slava, 
+#     Victor
+#  ) = map(chr, range(2, 2))
+# print(Victor)
 
-if n is dict:
-    print(n)
-
-if isinstance(n, dict):
-    print(n)
+# m = 1
+# n = {1 : 2}
+# if n is dict:
+#     print(n)
+# if isinstance(n, dict):
+#     print(n)
 
 # print(str('\x12'))
 # print(str('\x15'))
